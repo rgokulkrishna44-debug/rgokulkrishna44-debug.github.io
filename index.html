@@ -135,21 +135,32 @@ a{color:inherit;text-decoration:none}
 .rowi:hover .bar i{background:var(--ink)}
 @media(max-width:640px){.rowi{grid-template-columns:2.2rem 1fr}.rowi .st{grid-column:2;text-align:left}.bar{margin-left:0}}
 
-/* journey */
-.journey{overflow:hidden}
-.jtrack{display:flex;gap:1.25rem;width:max-content;padding:0 var(--gut)}
-.jc{width:min(24rem,80vw);flex:none;border-radius:20px;padding:1.8rem;min-height:21rem;display:flex;flex-direction:column;gap:.8rem;
-  background:var(--bone-2);color:var(--ink);position:relative;overflow:hidden}
-.jc.next{background:var(--ink);color:var(--bone)}
-.jc .w{font-family:var(--mono);font-size:.75rem;display:flex;justify-content:space-between;color:var(--grey-2)}
-.jc.next .w{color:var(--grey)}
-.jc .w b{font-weight:500;color:var(--accent)}
-.jc h3{margin:.6rem 0 0;font-size:1.7rem;font-weight:700;letter-spacing:-.045em;line-height:1}
-.jc p{margin:0;font-size:.98rem;color:var(--grey-2)}
-.jc.next p{color:var(--grey)}
-.jc .big{margin-top:auto;font-size:6rem;font-weight:800;letter-spacing:-.07em;line-height:.8;opacity:.13;display:block}
-.static .journey .jtrack{width:auto;flex-wrap:wrap}
-@media(max-width:899px){.jtrack{width:auto;flex-direction:column}.jc{width:auto;min-height:0}.jc .big{font-size:3.5rem}}
+/* journey: sticky side, filling spine, steps light up */
+.jgrid{display:grid;gap:2.5rem}
+@media(min-width:900px){.jgrid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:4rem}.jside{position:sticky;top:6rem;align-self:start}}
+.jside .h{margin-bottom:2rem;font-size:clamp(2.6rem,5.4vw,5.6rem)}
+.jcount{font-weight:800;letter-spacing:-.06em;line-height:.8;font-size:clamp(4rem,10vw,9rem);display:flex;align-items:baseline;gap:.5rem;font-variant-numeric:tabular-nums}
+.jcount .jnow{display:inline-block;color:var(--accent)}
+.jcount .jtot{font-size:.28em;color:var(--grey-2);letter-spacing:-.02em;font-weight:600}
+.jhint{font-family:var(--mono);font-size:.75rem;color:var(--grey-2);margin:1rem 0 0}
+@media(max-width:899px){.jcount,.jhint{display:none}}
+.jwrap{position:relative;padding-left:2.2rem}
+.jspine{position:absolute;left:5px;top:.7rem;bottom:3.4rem;width:2px;background:color-mix(in srgb,var(--ink) 12%,transparent)}
+.jfill{display:block;height:100%;background:var(--accent);transform-origin:top;transform:scaleY(0)}
+.static .jfill{transform:none}
+.jlist{list-style:none;margin:0;padding:0}
+.ji{position:relative;padding:0 0 3.2rem;opacity:.32;transition:opacity .6s var(--ease)}
+.ji::before{content:"";position:absolute;left:-2.2rem;top:.4rem;width:12px;height:12px;border-radius:50%;background:var(--bone);
+  border:2px solid color-mix(in srgb,var(--ink) 28%,transparent);transition:background .4s,border-color .4s,box-shadow .4s}
+.ji.on{opacity:1}
+.ji.on::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 18%,transparent)}
+.static .ji{opacity:1}
+.ji .jw{display:block;font-family:var(--mono);font-size:.75rem;color:var(--grey-2);margin-bottom:.5rem}
+.ji h3{margin:0 0 .5rem;font-size:clamp(1.5rem,2.6vw,2.3rem);font-weight:700;letter-spacing:-.045em;line-height:1.02}
+.ji p{margin:0;color:var(--grey-2);max-width:34rem}
+.jtag{display:inline-block;margin-top:.8rem;font-family:var(--mono);font-size:.7rem;padding:.25rem .65rem;border-radius:999px;border:1px solid color-mix(in srgb,var(--ink) 18%,transparent)}
+.plinks{display:flex;flex-wrap:wrap;gap:1.4rem;font-family:var(--mono);font-size:.78rem}
+.plinks a{color:var(--bone);border-bottom:1px solid var(--accent);padding-bottom:2px}
 
 /* projects: layered depth on hover */
 .pgrid{display:grid;gap:1.25rem;perspective:1400px}
@@ -157,7 +168,7 @@ a{color:inherit;text-decoration:none}
 .pc.wide{grid-column:1/-1;min-height:0}
 @media(min-width:900px){.pc.wide .flow{grid-template-columns:repeat(4,1fr)}}
 .pc{position:relative;border-radius:24px;background:var(--ink-2);border:1px solid var(--ink-3);padding:clamp(1.5rem,3vw,2.4rem);
-  display:flex;flex-direction:column;gap:1.1rem;min-height:30rem;transform-style:preserve-3d}
+  display:flex;flex-direction:column;gap:1.1rem;min-height:20rem;transform-style:preserve-3d}
 .pc .tagl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.75rem;color:var(--grey)}
 .pc .tagl b{font-weight:500;color:var(--accent);display:inline-flex;gap:.5rem;align-items:center}
 .pc .tagl b i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.6s infinite}
@@ -243,12 +254,12 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
 <section class="sec light" id="about">
   <div class="pad">
     <p class="label"><span>01 / About</span><span>Coimbatore, Tamil Nadu</span></p>
-    <p class="statement rv-words">We had a computer at home long before most homes around us did, and I have been curious about how it all works ever since. Now I study <span class="hl">computer science</span> and teach myself to build things that run on the <span class="hl">cloud</span>, reliably, for real people. I spent four weeks at NITTTR Chennai learning how AI models are trained. Away from the screen, I am happiest behind the wheel of a car.</p>
+    <p class="statement rv-words">We had a computer at home long before most homes around us did, and I have been curious about how it all works ever since. Now I study <span class="hl">computer science</span> and teach myself to build things that run on the <span class="hl">cloud</span>, reliably, for real people. I have done AI/ML internships at Adventure Technologies and NITTTR Chennai, and shipped real projects along the way. Away from the screen, I am happiest behind the wheel of a car.</p>
     <dl class="facts">
       <div><dt>Studying</dt><dd>B.E. CSE, KPRIET</dd></div>
       <div><dt>Focus</dt><dd>Cloud and AI applications</dd></div>
       <div><dt>Speaks</dt><dd>Tamil, English, learning Hindi</dd></div>
-      <div><dt>Internship</dt><dd>AI/ML, NITTTR Chennai</dd></div>
+      <div><dt>Internships</dt><dd>Adventure Technologies, NITTTR Chennai</dd></div>
       <div><dt>Off screen</dt><dd>Driving, cars, badminton, music</dd></div>
     </dl>
   </div>
@@ -266,10 +277,10 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
     <p class="label"><span>02 / Learning</span><span>updated oct 2026</span></p>
     <h2 class="h rv-title">Currently <span class="o">learning</span></h2>
     <ul class="rows">
-      <li class="rowi"><span class="n">01</span><div><h3>AWS fundamentals</h3><p>Cloud Practitioner Essentials done. The certification exam is next.</p></div><div class="st">course done<span class="bar"><i style="--v:55%"></i></span></div></li>
-      <li class="rowi"><span class="n">02</span><div><h3>Data structures and algorithms</h3><p>A structured problem list, one topic at a time, every day.</p></div><div class="st">started<span class="bar"><i style="--v:10%"></i></span></div></li>
-      <li class="rowi"><span class="n">03</span><div><h3>Building with LLMs</h3><p>Started with a four week AI/ML internship at NITTTR Chennai. Now learning retrieval augmented generation.</p></div><div class="st">building<span class="bar"><i style="--v:15%"></i></span></div></li>
-      <li class="rowi"><span class="n">04</span><div><h3>Workflow automation with n8n</h3><p>Hands on: automations that connect APIs, webhooks and LLMs.</p></div><div class="st">hands on<span class="bar"><i style="--v:60%"></i></span></div></li>
+      <li class="rowi"><span class="n">01</span><div><h3>AI engineering: agents and RAG</h3><p>The most in demand skill right now. Building on Urimai: retrieval, tool calling agents, evaluation.</p></div><div class="st">learning now<span class="bar"><i style="--v:20%"></i></span></div></li>
+      <li class="rowi"><span class="n">02</span><div><h3>AWS fundamentals</h3><p>Cloud Practitioner Essentials done. The certification exam is next.</p></div><div class="st">course done<span class="bar"><i style="--v:55%"></i></span></div></li>
+      <li class="rowi"><span class="n">03</span><div><h3>Workflow automation with n8n</h3><p>Hands on: automations that connect APIs, webhooks and LLMs.</p></div><div class="st">hands on<span class="bar"><i style="--v:60%"></i></span></div></li>
+      <li class="rowi"><span class="n">04</span><div><h3>Data structures and algorithms</h3><p>A structured problem list, one topic at a time.</p></div><div class="st">up next<span class="bar"><i style="--v:5%"></i></span></div></li>
       <li class="rowi"><span class="n">05</span><div><h3>Docker and Linux</h3><p>Containers and the command line, so what I build runs anywhere.</p></div><div class="st">up next<span class="bar"><i style="--v:5%"></i></span></div></li>
     </ul>
   </div>
@@ -277,42 +288,74 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
 
 <section class="sec light journey" id="journey">
   <div class="pad">
-    <p class="label"><span>03 / Journey</span><span>keep scrolling</span></p>
-    <h2 class="h rv-title">The road <span class="o">so far</span></h2>
-  </div>
-  <div class="jtrack">
-    <article class="jc"><span class="w">early years <b>done</b></span><h3>A computer at home</h3><p>Before computers were common in homes around us. Where the curiosity started.</p><span class="big">01</span></article>
-    <article class="jc"><span class="w">2024 <b>done</b></span><h3>B.E. Computer Science</h3><p>Joined KPR Institute of Engineering and Technology, Coimbatore.</p><span class="big">02</span></article>
-    <article class="jc"><span class="w">nptel <b>done</b></span><h3>Introduction to Industry 4.0 and Industrial IoT</h3><p>How connected devices and data are changing industry.</p><span class="big">03</span></article>
-    <article class="jc"><span class="w">hackathon <b>done</b></span><h3>First hackathon</h3><p>A college hackathon. First time building against a clock with a team.</p><span class="big">04</span></article>
-    <article class="jc"><span class="w">internship <b>done</b></span><h3>AI/ML internship, NITTTR Chennai</h3><p>Four weeks on how AI models are trained, hands on.</p><span class="big">05</span></article>
-    <article class="jc"><span class="w">2026 <b>done</b></span><h3>AWS Cloud Practitioner Essentials</h3><p>The official AWS course on cloud fundamentals.</p><span class="big">06</span></article>
-    <article class="jc next"><span class="w">oct 2026 <b>next</b></span><h3>AWS Certified Cloud Practitioner</h3><p>The exam, once practice scores stay above 80 percent.</p><span class="big">07</span></article>
-    <article class="jc next"><span class="w">dec 2026 <b>next</b></span><h3>Campus assistant goes live</h3><p>Version one in the hands of real students.</p><span class="big">08</span></article>
-    <article class="jc next"><span class="w">2027 <b>next</b></span><h3>Internship</h3><p>Taking what I build into a real engineering team.</p><span class="big">09</span></article>
+    <p class="label"><span>03 / Journey</span><span>from a home computer to now</span></p>
+    <div class="jgrid">
+      <div class="jside">
+        <h2 class="h rv-title">The road <span class="o">so far</span></h2>
+        <div class="jcount" aria-hidden="true"><span class="jnow">01</span><span class="jtot">/ 10</span></div>
+        <p class="jhint">every step, in order</p>
+      </div>
+      <div class="jwrap">
+        <span class="jspine" aria-hidden="true"><i class="jfill"></i></span>
+        <ol class="jlist">
+          <li class="ji"><span class="jw">early years</span><h3>A computer at home</h3><p>Before computers were common in homes around us. Where the curiosity started.</p></li>
+          <li class="ji"><span class="jw">2024</span><h3>B.E. Computer Science, KPRIET</h3><p>Joined KPR Institute of Engineering and Technology, Coimbatore.</p></li>
+          <li class="ji"><span class="jw">nptel</span><h3>Introduction to Industry 4.0 and Industrial IoT</h3><p>How connected devices and data are changing industry.</p></li>
+          <li class="ji"><span class="jw">hackathon</span><h3>First hackathon</h3><p>A college hackathon. First time building against a clock with a team.</p></li>
+          <li class="ji"><span class="jw">jun 2026</span><h3>AI/ML internship, Adventure Technologies</h3><p>Built MindMate AI, a study assistant with a neural network intent classifier. About 94 percent validation accuracy.</p><span class="jtag">internship</span></li>
+          <li class="ji"><span class="jw">internship</span><h3>AI/ML internship, NITTTR Chennai</h3><p>Four weeks on how AI models are trained, hands on.</p><span class="jtag">internship</span></li>
+          <li class="ji"><span class="jw">aug 2026</span><h3>Placement Intelligence</h3><p>Shipped a local first placement planner. Live on the web.</p><span class="jtag">project</span></li>
+          <li class="ji"><span class="jw">aug 2026</span><h3>Urimai</h3><p>Tamil voice first welfare scheme screening. Open source.</p><span class="jtag">project</span></li>
+          <li class="ji"><span class="jw">2026</span><h3>AWS Cloud Practitioner Essentials</h3><p>The official AWS course on cloud fundamentals.</p></li>
+          <li class="ji"><span class="jw">oct 2026</span><h3>This portfolio goes live</h3><p>Published on GitHub Pages over HTTPS. You are reading it.</p></li>
+        </ol>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="sec dark" id="projects">
   <div class="pad">
-    <p class="label"><span>04 / Projects</span><span>1 in progress, 2 up next</span></p>
-    <h2 class="h rv-title">What I am <span class="o">building</span></h2>
+    <p class="label"><span>04 / Projects</span><span>real work, 2026</span></p>
+    <h2 class="h rv-title">Things I have <span class="o">built</span></h2>
     <div class="pgrid">
       <article class="pc wide rv-up">
-        <div class="tagl"><span>P0 · this week</span><b><i></i>in progress</b></div>
-        <h3>This portfolio, on AWS</h3>
-        <p>This site runs on GitHub Pages today. This week I am moving it to my own AWS setup: a private S3 bucket behind CloudFront with HTTPS, deployed from GitHub on every push. No servers, near zero cost.</p>
-        <div class="flow" aria-label="Architecture: git push, GitHub Actions, S3 bucket, CloudFront with HTTPS">
-          <span>git push <em>main</em></span><span>GitHub Actions <em>OIDC role</em></span><span>S3 <em>private bucket</em></span><span>CloudFront <em>HTTPS</em></span>
+        <div class="tagl"><span>Web app · Aug 2026</span><b><i></i>live</b></div>
+        <h3>Placement Intelligence</h3>
+        <p>A local first planner that reads resumes of students who got placed and turns them into a prioritised, time budgeted preparation plan for one student. Built so frequency is never mistaken for importance. It runs fully in the browser, so no resume ever leaves the device.</p>
+        <div class="flow" aria-label="How it works: resumes in the browser, parse skills and projects, score by evidence, plan by week">
+          <span>Resumes <em>in browser</em></span><span>Parse <em>skills, projects</em></span><span>Score <em>evidence, ROI</em></span><span>Plan <em>by week</em></span>
         </div>
-        <ul class="stack"><li>S3</li><li>CloudFront</li><li>IAM</li><li>GitHub Actions</li></ul>
+        <ul class="stack"><li>TypeScript</li><li>React</li><li>Vite</li><li>Client side only</li></ul>
+        <div class="plinks"><a href="https://rgokulkrishna44-debug.github.io/placement-intel/">Open live ↗</a><a href="https://github.com/rgokulkrishna44-debug/placement-intel">Code ↗</a></div>
+      </article>
+      <article class="pc rv-up">
+        <div class="tagl"><span>AI · Aug 2026</span><b>open source</b></div>
+        <h3>Urimai (உரிமை)</h3>
+        <p>Voice first welfare scheme screening for Tamil speakers. A Tamil voice note goes in; the schemes a person likely qualifies for come out, with the office that confirms each one. The LLM extracts facts but never decides: a rules engine does, and "not yet asked" is never treated as "no".</p>
+        <ul class="stack"><li>Python</li><li>FastAPI</li><li>Speech to text</li><li>LLM extraction</li><li>pytest</li></ul>
+        <div class="plinks"><a href="https://github.com/rgokulkrishna44-debug/urimai">Code ↗</a></div>
+      </article>
+      <article class="pc rv-up">
+        <div class="tagl"><span>Internship · Jun 2026</span><b>~94% accuracy</b></div>
+        <h3>MindMate AI</h3>
+        <p>An AI study assistant built during my internship at Adventure Technologies. A neural network intent classifier trained on a cleaned, labelled query dataset, plugged into a multi page chat interface, and evaluated with a confusion matrix, precision, recall and F1.</p>
+        <ul class="stack"><li>Python</li><li>Neural networks</li><li>Intent classification</li></ul>
+      </article>
+      <article class="pc rv-up">
+        <div class="tagl"><span>Android · college project</span><span>app</span></div>
+        <h3>Worker Connect</h3>
+        <p>An Android app to find and book local workers: sign in, browse by category, view a worker, book, and leave a review.</p>
+        <ul class="stack"><li>Kotlin</li><li>Jetpack Compose</li><li>Firebase</li></ul>
+      </article>
+      <article class="pc rv-up">
+        <div class="tagl"><span>Web · Oct 2026</span><b><i></i>live</b></div>
+        <h3>This portfolio</h3>
+        <p>The site you are on. A 3D MacBook built in Three.js, scroll driven motion with GSAP and Lenis, hosted on GitHub Pages over HTTPS.</p>
+        <ul class="stack"><li>Three.js</li><li>GSAP</li><li>Lenis</li><li>GitHub Pages</li></ul>
+        <div class="plinks"><a href="https://github.com/rgokulkrishna44-debug/rgokulkrishna44-debug.github.io">Code ↗</a></div>
       </article>
     </div>
-    <p class="upnext">Up next</p>
-    <ul class="rows">
-      <li class="rowi"><span class="n">P1</span><div><h3>Campus Q&amp;A assistant</h3><p>Retrieval augmented generation over public college documents, English and Tamil, on AWS.</p></div><div class="st">nov to dec 2026</div></li>
-      <li class="rowi"><span class="n">P2</span><div><h3>Serverless uptime monitor</h3><p>Lambda checks sites on a schedule and alerts the moment one goes down.</p></div><div class="st">2027</div></li>
-    </ul>
   </div>
 </section>
 
@@ -400,18 +443,16 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
     gsap.utils.toArray('.sec:not(.journey), .marq').forEach(function(s){
       gsap.from(s,{y:70,ease:'none',scrollTrigger:{trigger:s,start:'top bottom',end:'top 55%',scrub:true}});});
 
-    var mm=gsap.matchMedia();
-    mm.add('(min-width: 900px)',function(){
-      var sec=document.querySelector('.journey'),tr=sec.querySelector('.jtrack');
-      var dist=function(){return Math.max(0,tr.scrollWidth-window.innerWidth);};
-      var jt=gsap.to(tr,{x:function(){return -dist();},ease:'none',
-        scrollTrigger:{trigger:sec,start:'top top',end:function(){return '+='+dist();},pin:true,scrub:.8,invalidateOnRefresh:true}});
-      gsap.utils.toArray('.jc .big').forEach(function(b){
-        gsap.fromTo(b,{xPercent:60},{xPercent:-60,ease:'none',
-          scrollTrigger:{trigger:b.parentNode,containerAnimation:jt,start:'left right',end:'right left',scrub:true}});});
-    });
-    mm.add('(max-width: 899px)',function(){
-      gsap.utils.toArray('.jc').forEach(function(c){gsap.from(c,{y:40,opacity:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:c,start:'top 90%'}});});
+    var jitems=gsap.utils.toArray('.ji'),jnow=document.querySelector('.jnow');
+    gsap.to('.jfill',{scaleY:1,ease:'none',scrollTrigger:{trigger:'.jwrap',start:'top 62%',end:'bottom 62%',scrub:.4}});
+    jitems.forEach(function(it,i){
+      gsap.from(it,{x:40,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:it,start:'top 88%'}});
+      ScrollTrigger.create({trigger:it,start:'top 62%',end:'bottom 62%',onToggle:function(self){
+        if(!self.isActive)return;
+        jitems.forEach(function(x,k){x.classList.toggle('on',k<=i);});
+        var n=String(i+1).padStart(2,'0');
+        if(jnow.textContent!==n){jnow.textContent=n;gsap.fromTo(jnow,{yPercent:35,opacity:0},{yPercent:0,opacity:1,duration:.45,ease:'expo.out'});}
+      }});
     });
 
     gsap.to('.progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
@@ -435,7 +476,7 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
   }catch(err){console.error(err);
     if(window.ScrollTrigger)ScrollTrigger.getAll().forEach(function(t){t.kill(true);});
     if(window.gsap){gsap.globalTimeline.clear();
-      gsap.set('.mw > span,.giant .gl > span,.giant,.facts > div,.rowi,.rv-up,.sec,.marq,.jtrack,.cap,.hero-meta,.boot-hint',{clearProps:'all'});}
+      gsap.set('.mw > span,.giant .gl > span,.giant,.facts > div,.rowi,.rv-up,.sec,.marq,.ji,.jfill,.cap,.hero-meta,.boot-hint',{clearProps:'all'});}
     toStatic();}
 })();
 </script>
