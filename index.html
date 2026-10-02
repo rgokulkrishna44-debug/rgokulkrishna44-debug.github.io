@@ -466,18 +466,6 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
     T.fromTo('.hv-name .l',{yPercent:118},{yPercent:0,duration:.2*u,stagger:{amount:.1*u},ease:'power3.out',immediateRender:false},(0.65+5*1.0+.05)*u);
     T.to('.boot-hint',{opacity:0,duration:.3*u},.4*u);
     T.to('.hero-meta',{opacity:0,duration:.3*u},(TOT-.5)*u);
-    /* settle on the nearest word when scrolling stops, so a word is never caught half rolled */
-    var SN=[0, 0.1811, 0.3386, 0.4961, 0.6535, 0.811, 1],idle=null;
-    function snapNow(){
-      var hero=document.querySelector('.hero'),span=hero.offsetHeight-document.querySelector('.stage').offsetHeight;
-      var hs=hero.getBoundingClientRect().top+window.scrollY,p=(window.scrollY-hs)/span;
-      if(p<=.005||p>=.995)return;
-      var best=SN[0];SN.forEach(function(v){if(Math.abs(v-p)<Math.abs(best-p))best=v;});
-      var y=hs+best*span;if(Math.abs(y-window.scrollY)<4)return;
-      if(lenis)lenis.scrollTo(y,{duration:.8,easing:function(t){return 1-Math.pow(1-t,3);}});else window.scrollTo({top:y,behavior:'smooth'});
-    }
-    addEventListener('scroll',function(){clearTimeout(idle);idle=setTimeout(snapNow,180);},{passive:true});
-
     gsap.utils.toArray('.rv-title').forEach(function(h){
       gsap.from(maskWords(h),{yPercent:110,duration:1.2,stagger:.06,ease:'expo.out',scrollTrigger:{trigger:h,start:'top 85%'}});});
     gsap.utils.toArray('.rv-words').forEach(function(p){
