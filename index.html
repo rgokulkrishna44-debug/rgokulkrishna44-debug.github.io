@@ -469,23 +469,28 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
     T.fromTo('.hv-name .l',{yPercent:118},{yPercent:0,duration:.2*u,stagger:{amount:.1*u},ease:'power3.out',immediateRender:false},(0.65+5*1.0+.05)*u);
     T.to('.boot-hint',{opacity:0,duration:.3*u},.4*u);
     T.to('.hero-meta',{opacity:0,duration:.3*u},(TOT-.5)*u);
+    /* replay: play on every entry (down or up), reset only once fully off screen so text never vanishes while visible */
+    function rp(tw,trg,start){
+      ScrollTrigger.create({trigger:trg,start:start,end:'bottom top',onEnter:function(){tw.restart();},onEnterBack:function(){tw.restart();},onLeave:function(){tw.pause(0);}});
+      ScrollTrigger.create({trigger:trg,start:'top bottom+=250',onLeaveBack:function(){tw.pause(0);}});
+    }
     gsap.utils.toArray('.rv-title').forEach(function(h){
-      gsap.from(maskWords(h),{yPercent:110,duration:1.2,stagger:.06,ease:'expo.out',scrollTrigger:{trigger:h,start:'top 85%',toggleActions:'play reset play reset'}});});
+      rp(gsap.from(maskWords(h),{yPercent:110,duration:1.2,stagger:.06,ease:'expo.out',paused:true}),h,'top 85%');});
     gsap.utils.toArray('.rv-words').forEach(function(p){
-      gsap.from(maskWords(p),{yPercent:110,duration:1,stagger:.012,ease:'expo.out',scrollTrigger:{trigger:p,start:'top 80%',toggleActions:'play reset play reset'}});});
-    gsap.from('.facts > div',{y:30,opacity:0,stagger:.08,duration:1,ease:'expo.out',scrollTrigger:{trigger:'.facts',start:'top 88%',toggleActions:'play reset play reset'}});
+      rp(gsap.from(maskWords(p),{yPercent:110,duration:1,stagger:.012,ease:'expo.out',paused:true}),p,'top 80%');});
+    rp(gsap.from('.facts > div',{y:30,opacity:0,stagger:.08,duration:1,ease:'expo.out',paused:true}),'.facts','top 88%');
     gsap.utils.toArray('.rowi').forEach(function(r){
-      gsap.from(r,{y:40,opacity:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:r,start:'top 90%',toggleActions:'play reset play reset'}});});
-    gsap.utils.toArray('.bar i').forEach(function(b){gsap.from(b,{scaleX:0,duration:1.6,ease:'expo.out',scrollTrigger:{trigger:b,start:'top 92%',toggleActions:'play reset play reset'}});});
+      rp(gsap.from(r,{y:40,opacity:0,duration:1,ease:'expo.out',paused:true}),r,'top 90%');});
+    gsap.utils.toArray('.bar i').forEach(function(b){rp(gsap.from(b,{scaleX:0,duration:1.6,ease:'expo.out',paused:true}),b,'top 92%');});
     gsap.utils.toArray('.rv-up').forEach(function(el){
-      gsap.from(el,{y:80,opacity:0,duration:1.2,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play reset play reset'}});});
+      rp(gsap.from(el,{y:80,opacity:0,duration:1.2,ease:'expo.out',paused:true}),el,'top 88%');});
     gsap.utils.toArray('.sec:not(.journey):not(#about), .marq').forEach(function(s){
       gsap.from(s,{y:70,ease:'none',scrollTrigger:{trigger:s,start:'top bottom',end:'top 55%',scrub:true}});});
 
     var jitems=gsap.utils.toArray('.ji'),jnow=document.querySelector('.jnow');
     gsap.to('.jfill',{scaleY:1,ease:'none',scrollTrigger:{trigger:'.jwrap',start:'top 62%',end:'bottom 62%',scrub:.4}});
     jitems.forEach(function(it,i){
-      gsap.from(it,{x:40,duration:1.1,ease:'expo.out',scrollTrigger:{trigger:it,start:'top 88%',toggleActions:'play reset play reset'}});
+      rp(gsap.from(it,{x:40,duration:1.1,ease:'expo.out',paused:true}),it,'top 88%');
       ScrollTrigger.create({trigger:it,start:'top 62%',end:'bottom 62%',onToggle:function(self){
         if(!self.isActive)return;
         jitems.forEach(function(x,k){x.classList.toggle('on',k<=i);});
