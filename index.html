@@ -166,6 +166,7 @@ a{color:inherit;text-decoration:none}
 @media(max-width:640px){.rowi{grid-template-columns:2.2rem 1fr}.rowi .st{grid-column:2;text-align:left}.bar{margin-left:0}}
 
 /* journey: sticky side, filling spine, steps light up */
+.journey{overflow-x:clip}
 .jgrid{display:grid;gap:2.5rem}
 @media(min-width:900px){.jgrid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:4rem}.jside{position:sticky;top:6rem;align-self:start}}
 .jside .h{margin-bottom:2rem;font-size:clamp(2.6rem,5.4vw,5.6rem)}
@@ -216,9 +217,14 @@ a{color:inherit;text-decoration:none}
 .stack{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;margin:0;padding:0;transition:transform .6s var(--ease)}
 .stack li{font-family:var(--mono);font-size:.7rem;color:var(--grey);border:1px solid var(--ink-3);border-radius:999px;padding:.3rem .7rem}
 .stack li.ai{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--ink-3))}
+.shot{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--ink-3);background:var(--ink);box-shadow:0 30px 60px -30px rgba(0,0,0,.6);transition:transform .6s var(--ease)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-family:var(--mono);font-size:.7rem;color:var(--grey);padding:.6rem .9rem;border-top:1px solid var(--ink-3)}
+@media(min-width:900px){.pc.wide.has-shot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-rows:auto auto 1fr;column-gap:clamp(2rem,4vw,3.5rem);row-gap:1.1rem;align-content:start}
+  .pc.wide.has-shot>*{grid-column:1/-1}.pc.wide.has-shot>h3,.pc.wide.has-shot>p{grid-column:1}.pc.wide.has-shot>.shot{grid-column:2;grid-row:2/span 2;align-self:start}}
 .how-note{margin:2.6rem 0 0;font-size:clamp(1.1rem,2vw,1.4rem);font-weight:500;letter-spacing:-.025em;line-height:1.3;max-width:46rem}
 
-@media(pointer:fine){.pc:hover h3{transform:translateZ(40px)}.pc:hover p{transform:translateZ(20px)}.pc:hover .flow,.pc:hover .chat{transform:translateZ(60px)}.pc:hover .stack{transform:translateZ(30px)}}
+@media(pointer:fine){.pc:hover h3{transform:translateZ(40px)}.pc:hover p{transform:translateZ(20px)}.pc:hover .flow,.pc:hover .chat{transform:translateZ(60px)}.pc:hover .stack{transform:translateZ(30px)}.pc:hover .shot{transform:translateZ(50px)}}
 /* contact */
 .contact{background:var(--bone);color:var(--ink);padding-bottom:6rem}
 .contact .label{color:var(--grey-2)}
@@ -362,10 +368,11 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
     <p class="label"><span>05 / Projects</span><span>real work, 2026</span></p>
     <h2 class="h rv-title">Things I have <span class="o">built</span></h2>
     <div class="pgrid">
-      <article class="pc wide rv-up">
+      <article class="pc wide has-shot rv-up">
         <div class="tagl"><span>AI · Oct 2026</span><b>home lab</b></div>
         <h3>Ultron</h3>
         <p>A voice assistant for my room. I send a question from my phone; a Python service on my Dell laptop searches the web, has Gemini write a short answer, turns it into speech and casts it to a Mi smart speaker. It greets me when my phone joins the home WiFi (never at night), and a live screen shows when it is listening, thinking or speaking. It cannot be woken with "Hey Google": the speaker's own mic belongs to Google Assistant, so questions come from the phone. About 10 seconds to the first spoken word.</p>
+        <figure class="shot"><img src="img/ultron-hud.jpg" width="1400" height="875" loading="lazy" decoding="async" alt="Ultron status screen in preview mode: a glowing orange core, a stage log with search, Gemini and speech timings, and the last question and answer"><figcaption>Live status screen, preview mode</figcaption></figure>
         <div class="flow" aria-label="How it works: question from the phone, search the web, Gemini writes a short answer, the speaker says it">
           <span>Phone <em>question</em></span><span>Search <em>the web</em></span><span>Gemini <em>short answer</em></span><span>Speaker <em>voice</em></span>
         </div>
@@ -387,12 +394,14 @@ footer .row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;b
         <div class="tagl"><span>Apps · Oct 2026</span><b>built</b></div>
         <h3>Lyrics Screen</h3>
         <p>A native Mac app that turns the screen into a lyrics display while Spotify plays. It reads the current track from the Spotify app without an API key, fetches time synced lyrics from LRCLIB and lights each line as it is sung, edge to edge around the notch. A companion Android TV app shows the same lyrics on the TV, following whichever laptop is playing, synced over the home network. Needs the Spotify desktop app, and only songs LRCLIB knows get lyrics.</p>
+        <figure class="shot"><img src="img/lyrics-screen.jpg" width="1400" height="875" loading="lazy" decoding="async" alt="Lyrics Screen clean theme: the current line lit in warm white over a blurred album colour, the next lines dimmed, track and controls along the bottom"><figcaption>Clean theme, playing a demo song</figcaption></figure>
         <ul class="stack"><li class="ai">Built with AI</li><li>Swift</li><li>WebKit</li><li>AppleScript</li><li>Android TV</li><li>Java</li><li>TCP and UDP</li></ul>
       </article>
       <article class="pc rv-up">
         <div class="tagl"><span>Product · Oct 2026</span><b><i></i>live demo</b></div>
         <h3>KPR Lunch</h3>
         <p>Students order lunch from class and collect it with a token, across 5 shops for about 4,000 students on my campus. Each shop has its own counter view, cart and UPI ID, and the rules follow real campus timings: ordering closes 12:30, cancelling 12:40. Cash orders wait until the student taps "I'm coming". A prototype: data stays in the browser, and real payments need a gateway and a backend first.</p>
+        <figure class="shot"><img src="img/kpr-lunch.jpg" width="1400" height="875" loading="lazy" decoding="async" alt="KPR Lunch student view: ordering open till 12:30 PM, a lunch timeline, and shop cards with the special of the day and its price"><figcaption>Student view, with the demo switcher for shops</figcaption></figure>
         <ul class="stack"><li class="ai">Built with AI</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Mobile first</li></ul>
         <div class="plinks"><a href="https://claude.ai/artifact/Fa2Z4tPwBQSLGSsTKu1HkJ">Open demo ↗</a></div>
       </article>
